@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, "Please provide a name"],
+  },
   email: {
     type: String,
     required: [true, "Please provide an email"],
@@ -9,6 +13,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     enum: ["buyer", "seller", "admin"],
     default: "buyer",
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
   },
 });
 
