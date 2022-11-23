@@ -1,0 +1,38 @@
+const http = require("http");
+const mongoose = require("mongoose");
+require("dotenv").config();
+
+const app = require("./app");
+
+mongoose.connection.once("open", () => {
+  console.log("MongoDB connection is ready!");
+});
+
+mongoose.connection.once("error", () => {
+  console.error("Connection is failed");
+});
+
+const PORT = process.env.PORT || 3000;
+
+function startServer() {
+  mongoose.connect(process.env.MONGO_URL).catch((error) => {
+    console.log(error);
+  });
+  const server = http.createServer(app);
+
+  server.listen(PORT, () => {
+    console.log(`App is listening on port ${PORT}`);
+  });
+
+  return server;
+}
+
+startServer();
+
+process.on("uncaughtException", (error) => {
+  console.log(error.name, error.message);
+  console.log("UNCAUGHT EXCEPTION! 💥💥💥 Shutting down...");
+  server.close(() => {
+    process.exit(1);
+  });
+});
