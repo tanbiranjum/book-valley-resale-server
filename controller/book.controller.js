@@ -35,6 +35,42 @@ exports.getAllBooks = async (req, res, next) => {
   }
 };
 
+exports.getAllUnsoldBooks = async (req, res, next) => {
+  try {
+    const books = await Book.find({ status: "unsold" });
+    res.status(200).json({
+      status: "success",
+      results: books.length,
+      data: {
+        books,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
+
+exports.getBooksByCategory = async (req, res, next) => {
+  try {
+    const books = await Book.find({ category: req.params.category });
+    res.status(200).json({
+      status: "success",
+      results: books.length,
+      data: {
+        books,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
+
 exports.createBook = async (req, res, next) => {
   try {
     const newBook = await Book.create(req.body);

@@ -11,4 +11,7 @@ Router.route("/:id")
   .get(bookController.getBook)
   .patch(bookController.updateBook);
 
+Router.route("/unsold").get(bookController.getAllUnsoldBooks);
+Router.route("/category/:category").get(bookController.getBooksByCategory);
+
 module.exports = Router;
