@@ -9,6 +9,11 @@ const BookSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide a photo"],
   },
+  category: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Category",
+    required: [true, "Please provide a category"],
+  },
   location: {
     type: String,
     required: [true, "Please provide a location"],
