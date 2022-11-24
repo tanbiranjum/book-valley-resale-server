@@ -35,6 +35,23 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
+exports.getUserByEmail = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.params.email });
+    res.status(200).json({
+      status: "success",
+      data: {
+        user,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
+
 exports.deleteUser = async (req, res, next) => {
   try {
     await User.findByIdAndDelete(req.params.id);
