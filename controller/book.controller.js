@@ -78,7 +78,10 @@ exports.getAllUnsoldBooks = async (req, res, next) => {
 
 exports.getBooksByCategory = async (req, res, next) => {
   try {
-    const books = await Book.find({ category: req.params.category });
+    const books = await Book.find({
+      category: req.params.categoryId,
+      isAdvertise: true,
+    });
     res.status(200).json({
       status: "success",
       results: books.length,

@@ -26,6 +26,7 @@ const CartSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["pending", "accepted", "rejected"],
+    default: "pending",
   },
   createdAt: {
     type: Date,
@@ -34,7 +35,11 @@ const CartSchema = new mongoose.Schema({
 });
 
 CartSchema.pre("save", async function (next) {
-  await Book.findByIdAndUpdate(this.bookId, { isAvailable: false });
+  try {
+    await Book.findByIdAndUpdate(this.bookId, { isAdvertise: false });
+  } catch (error) {
+    console.log(error);
+  }
   next();
 });
 

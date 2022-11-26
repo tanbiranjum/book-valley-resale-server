@@ -13,6 +13,6 @@ Router.route("/:id")
 
 Router.route("/seller/:email").get(bookController.getBooksBySeller);
 Router.route("/unsold").get(bookController.getAllUnsoldBooks);
-Router.route("/category/:category").get(bookController.getBooksByCategory);
+Router.route("/category/:categoryId").get(bookController.getBooksByCategory);
 
 module.exports = Router;

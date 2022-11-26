@@ -36,26 +36,30 @@ exports.getCart = async (req, res, next) => {
 
 exports.getAllCarts = async (req, res, next) => {
   try {
-    const carts = await Cart.find();
+    const { email } = req.query;
+    let carts;
+    if (email) {
+      carts = await Cart.find({ buyer: email }).populate({
+        path: "bookId",
+        model: "Book",
+        populate: {
+          path: "category",
+          model: "Category",
+        },
+      });
+    } else {
+      carts = await Cart.find().populate({
+        path: "bookId",
+        model: "Book",
+        populate: {
+          path: "category",
+          model: "Category",
+        },
+      });
+    }
     res.status(200).json({
       status: "success",
-      data: {
-        carts,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: err,
-    });
-  }
-};
-
-exports.getCartByBuyer = async (req, res, next) => {
-  try {
-    const carts = await Cart.find({ buyer: req.params.email });
-    res.status(200).json({
-      status: "success",
+      results: carts.length,
       data: {
         carts,
       },
