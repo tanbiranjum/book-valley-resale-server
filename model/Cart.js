@@ -1,19 +1,18 @@
 const mongoose = require("mongoose");
+const Book = require("./Book");
 
 const CartSchema = new mongoose.Schema({
-  book: {
+  bookId: {
     type: mongoose.Schema.ObjectId,
     ref: "Book",
     required: [true, "Please provide a book"],
   },
   buyer: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
+    type: String,
     required: [true, "Please provide a buyer"],
   },
   seller: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
+    type: String,
     required: [true, "Please provide a seller"],
   },
   buyerNumber: {
@@ -28,4 +27,16 @@ const CartSchema = new mongoose.Schema({
     type: String,
     enum: ["pending", "accepted", "rejected"],
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
+
+CartSchema.pre("save", async function (next) {
+  await Book.findByIdAndUpdate(this.bookId, { isAvailable: false });
+  next();
+});
+
+const Cart = mongoose.model("Cart", CartSchema);
+module.exports = Cart;
