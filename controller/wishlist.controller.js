@@ -19,7 +19,7 @@ exports.createWishlist = async (req, res) => {
 
 exports.getWishlist = async (req, res) => {
   try {
-    const wishlist = await Wishlist.findById(req.params.id);
+    const wishlist = await Wishlist.findOne({ bookId: req.params.id });
     res.status(200).json({
       status: "success",
       data: {
@@ -59,7 +59,7 @@ exports.getAllWishlist = async (req, res) => {
 
 exports.deleteWishlist = async (req, res) => {
   try {
-    await Wishlist.findByIdAndDelete(req.params.id);
+    await Wishlist.findOneAndDelete({ bookId: req.params.id });
     res.status(204).json({
       status: "success",
       data: null,

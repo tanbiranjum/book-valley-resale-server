@@ -19,7 +19,14 @@ exports.createCart = async (req, res, next) => {
 
 exports.getCart = async (req, res, next) => {
   try {
-    const cart = await Cart.findById(req.params.id);
+    const cart = await Cart.findById(req.params.id).populate({
+      path: "bookId",
+      model: "Book",
+      populate: {
+        path: "category",
+        model: "Category",
+      },
+    });
     res.status(200).json({
       status: "success",
       data: {
