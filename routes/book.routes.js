@@ -10,7 +10,8 @@ Router.route("/")
 
 Router.route("/:id")
   .get(bookController.getBook)
-  .patch(bookController.updateBook);
+  .patch(bookController.updateBook)
+  .delete(bookController.deleteBook);
 
 Router.route("/seller/:sellerId").get(
   restrictTo(["seller"]),
