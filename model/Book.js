@@ -40,7 +40,8 @@ const BookSchema = new mongoose.Schema({
     required: [true, "Please provide a use of years"],
   },
   seller: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
     required: [true, "Please provide a seller"],
   },
   buyer: {

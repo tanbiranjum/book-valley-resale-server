@@ -22,7 +22,9 @@ exports.getAllBooks = async (req, res, next) => {
     const books = await Book.find({
       status: "available",
       isAdvertise: true,
-    });
+    })
+      .populate("seller")
+      .populate("category");
     res.status(200).json({
       status: "success",
       results: books.length,
@@ -40,9 +42,9 @@ exports.getAllBooks = async (req, res, next) => {
 
 exports.getBooksBySeller = async (req, res, next) => {
   try {
-    const books = await Book.find({ seller: req.params.email }).populate(
-      "category"
-    );
+    const books = await Book.find({ seller: req.params.sellerId })
+      .populate("category")
+      .populate("seller");
     res.status(200).json({
       status: "success",
       results: books.length,
@@ -108,6 +110,7 @@ exports.createBook = async (req, res, next) => {
       },
     });
   } catch (err) {
+    console.log(err);
     res.status(400).json({
       status: "fail",
       message: err,

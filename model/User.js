@@ -5,6 +5,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide a name"],
   },
+  photoURL: {
+    type: String,
+    required: [true, "Please provide a photo"],
+  },
   email: {
     type: String,
     required: [true, "Please provide an email"],

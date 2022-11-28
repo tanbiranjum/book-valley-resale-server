@@ -12,6 +12,10 @@ mongoose.connection.once("error", () => {
   console.error("Connection is failed");
 });
 
+app.get("/", (req, res) => {
+  res.send("Hello From The Server 👋");
+});
+
 const PORT = process.env.PORT || 5000;
 
 function startServer() {
@@ -24,15 +28,14 @@ function startServer() {
     console.log(`App is listening on port ${PORT}`);
   });
 
+  process.on("uncaughtException", (error) => {
+    console.log(error.name, error.message);
+    console.log("UNCAUGHT EXCEPTION! 💥💥💥 Shutting down...");
+    server.close(() => {
+      process.exit(1);
+    });
+  });
   return server;
 }
 
 startServer();
-
-process.on("uncaughtException", (error) => {
-  console.log(error.name, error.message);
-  console.log("UNCAUGHT EXCEPTION! 💥💥💥 Shutting down...");
-  server.close(() => {
-    process.exit(1);
-  });
-});
